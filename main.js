@@ -5,14 +5,13 @@ var spaces = [
   NaN, NaN, NaN
 ];
 
-// var player1 = prompt("Pick a name, player1!");
-// var player2 = prompt("Pick a name, player2!");
-console.log(player1)
-console.log(player2)
+// console.log(player1)
+// console.log(player2)
 var player1 = 'veggies';
 var player2 = 'junkfood';
 var currentPlayer = null;
 
+// Players take turns and the label in the DOM is updated
 var setNextTurn = function () {
   if (currentPlayer === player1) {
     currentPlayer = player2;
@@ -23,6 +22,7 @@ var setNextTurn = function () {
   $('#turn-label').text(currentPlayer);
 };
 
+// checks for any spaces that are identical to determine a goal state.
 var checkForWinner = function () {
   // Because (NaN === NaN) is always false, we can safely assume
   // that if three spaces in a row are the same, all three spaces are
@@ -43,12 +43,12 @@ var checkForWinner = function () {
   )
   {
     console.log('Somebody won!');
-    // TODO: Handle game winner
     setNextTurn();
     onGameWin(currentPlayer);
   }
 };
 
+// contains method that searches through an array and determines if a certain value exists.
 var contains = function(array, num)
 {
   for(var i = 0; i < array.length; i++)
@@ -61,12 +61,13 @@ var contains = function(array, num)
   return false
 }
 
+// checks if space is already occupied and alerts the player to choose another
+// space
 var visited = []
 $(document).on('click', '#board .space', function (e) {
   // console.log("before any new number is pushed to visited: " + visited)
   var spaceNum = $(e.currentTarget).index();
   // console.log(contains(visited, spaceNum))
-  // ToDo: use contains method to see if space is already occupied
   if(contains(visited,spaceNum))
   {
     alert("square is already occupied. Choose a different square")
@@ -81,24 +82,12 @@ $(document).on('click', '#board .space', function (e) {
   }
   spaces[spaceNum] = currentPlayer;
   console.log("which player is in space " + spaceNum + ": " + spaces[spaceNum])
-  //console.log("after space is pushed to visited: " + visited)
-  // console.log("what is in visited: " + visited)
-  // console.log('You clicked on space #' + spaceNum);
-  // Marks the space with the curent player's name
-  //console.log("What's in spaces?" + spaces)
-  //console.log("was space already visited?")
-  // Adds a class to elem so css can take care of the visuals
   checkForWinner();
 });
 
-var exit = false 
+// Alerts the players who one and disables any clicking functionality ones the game is complete
 function onGameWin (winner) {
-  // TODO: Alert who won the game
   alert('Congrats, ' + currentPlayer +  ', you won!')
-  exit = true;
-  // $("#board .space").click("false");
-  // $('#board .space').click(function(){return false;});
-  // console.log("did I passed this???")
   $(document).off('click', '#board .space')
 }
 
